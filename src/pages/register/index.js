@@ -37,11 +37,10 @@ import themeConfig from 'src/configs/themeConfig'
 // import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
-import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
-import { async } from '@firebase/util'
-import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import {auth} from "../../firebase";
-import {setUserSession} from '../../Utils/common'
+// import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
+// import { async } from '@firebase/util'
+// import { createUserWithEmailAndPassword } from "firebase/auth";
+import {db, addDoc, collection, updateProfile, auth, createUserWithEmailAndPassword, sendEmailVerification} from '../../firebase';
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -69,16 +68,11 @@ const RegisterPage = () => {
     showPassword: false
   })
   const [registerEmail, setRegisterEmail] = useState("");
-  // const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
-  const [user, setUser] = useState({});
-  // ** Hook
+  // const [user, setUser] = useState({});
   const theme = useTheme()
   const router = useRouter()
-  
-  // const handleChange = prop => event => {
-  //   setValues({ ...values, [prop]: event.target.value })
-  // }
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword })
@@ -88,27 +82,54 @@ const RegisterPage = () => {
     event.preventDefault()
   }
 
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
+  // onAuthStateChanged(auth, (currentUser) => {
+  //   setUser(currentUser);
+  // });
 
   const handleSubmit = async () =>{
     try {
-      const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
-      .then((response) => {
-        const refreshToken = response._tokenResponse.refreshToken;
-        const userinfo = response.user;
         
-        setUserSession(refreshToken, userinfo)
-        console.log('response : ', response);
+
+      await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
+        .then((response) => {
+        // const refreshToken = response._tokenResponse.refreshToken;
+        const userinfo = response.user;
+        // setUserSession(refreshToken, userinfo)
+        // console.log('response : ', response);
+        
+        AddExtraDetails(userinfo);
+
+        updateProfile(auth.currentUser, {
+          displayName: name
+        }).then(() => {
+          console.log('User details Updated')
+        }).catch((error) => {
+          console.log('User details update err :',error)
+        });
+
+        
+
         router.push('/')
       })
+      // const docRef = 
       
     } catch (error) {
       console.log(error.message);
     }
   }
 
+  const AddExtraDetails = async (data) =>{
+  try {
+    const docRef = await addDoc(collection(db, "users"), {
+      uid:data.uid,
+      name: name,
+      email: data.email
+    });
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+  }
   return (
     <center>
     <Box className='content-center'>
@@ -194,15 +215,15 @@ const RegisterPage = () => {
             <Typography variant='body2'>Make your app management easy and fun!</Typography>
           </Box>
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            {/* <TextField 
+            <TextField 
               autoFocus 
               fullWidth 
-              id='username' 
-              label='Username' 
-              name='username' 
+              id='name' 
+              label='Name' 
+              name='name' 
               sx={{ marginBottom: 4 }}
-              onChange={(e)=>setUsername(e.target.value)}
-            /> */}
+              onChange={(e)=>setName(e.target.value)}
+            /> 
             <TextField fullWidth type='email' name='registerEmail' label='Email' sx={{ marginBottom: 4 }} onChange={(e)=>setRegisterEmail(e.target.value)} />
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-register-password'>Password</InputLabel>

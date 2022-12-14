@@ -26,8 +26,7 @@ import AccountPlusOutline from 'mdi-material-ui/AccountPlusOutline'
 import Link from 'next/link'
 
 // import {removeUserSession, getToken} from '../../../../Utils/common'
-import {auth} from '../../../../firebase'
-import {onAuthStateChanged , signOut} from "firebase/auth";
+import {auth, onAuthStateChanged , signOut} from '../../../../firebase'
 
 
 // ** Styled Components
@@ -44,16 +43,26 @@ const UserDropdown = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const [afterLogin, setLogin] = useState(null);
   const [AuthChange, setAuthChange] = useState(null);
+  const [userdisplayDetails, setuserdisplayDetails] = useState({
+    name:'',
+    email:'',
+  });
   // ** Hooks
   const router = useRouter()
 
   useEffect(() =>{
     onAuthStateChanged(auth, (user) => {
-      // console.log('user--', user)
       if (user) {
         const uid = user.uid;
         console.log('User-signed-IN : ', user)
+        let displayName = user.displayName;
+        let email = user.email;
         setLogin(1)
+        setuserdisplayDetails({
+          ...userdisplayDetails,
+          'name':displayName, 'email':email 
+        })
+          
       } else {
         console.log('User-signed-OUT :', user)
         setLogin(0)
@@ -148,7 +157,8 @@ const UserDropdown = () => {
               <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
             </Badge>
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>John Doe</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{userdisplayDetails.name}</Typography>
+              <Typography sx={{ fontWeight: 100 }}>{userdisplayDetails.email}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
                 Admin
               </Typography>
@@ -162,18 +172,18 @@ const UserDropdown = () => {
             Profile
           </Box>
         </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <EmailOutline sx={{ marginRight: 2 }} />
             Inbox
           </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        </MenuItem> */}
+        {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <MessageOutline sx={{ marginRight: 2 }} />
             Chat
           </Box>
-        </MenuItem>
+        </MenuItem> */}
         <Divider />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
@@ -181,12 +191,12 @@ const UserDropdown = () => {
             Settings
           </Box>
         </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <CurrencyUsd sx={{ marginRight: 2 }} />
             Pricing
           </Box>
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <HelpCircleOutline sx={{ marginRight: 2 }} />
