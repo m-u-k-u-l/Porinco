@@ -46,6 +46,7 @@ const UserDropdown = () => {
   const [userdisplayDetails, setuserdisplayDetails] = useState({
     name:'',
     email:'',
+    phoneNumber:'',
   });
   // ** Hooks
   const router = useRouter()
@@ -57,10 +58,11 @@ const UserDropdown = () => {
         console.log('User-signed-IN : ', user)
         let displayName = user.displayName;
         let email = user.email;
+        let phoneNumber = user.phoneNumber;
         setLogin(1)
         setuserdisplayDetails({
           ...userdisplayDetails,
-          'name':displayName, 'email':email 
+          'name':displayName, 'email':email , 'phoneNumber':phoneNumber,
         })
           
       } else {
@@ -159,6 +161,7 @@ const UserDropdown = () => {
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
               <Typography sx={{ fontWeight: 600 }}>{userdisplayDetails.name}</Typography>
               <Typography sx={{ fontWeight: 100 }}>{userdisplayDetails.email}</Typography>
+              <Typography sx={{ fontWeight: 100 }}>{userdisplayDetails.phoneNumber}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
                 Admin
               </Typography>

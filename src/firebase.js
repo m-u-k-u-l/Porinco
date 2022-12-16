@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged, signOut, updateProfile, createUserWithEmailAndPassword , sendEmailVerification} from "firebase/auth";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, query, where, getDocs  } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyATl6Fo2OY6H4FUT6fA12FwwdtjYiriaxE",
@@ -29,5 +29,8 @@ export {
   signOut,
   createUserWithEmailAndPassword,
   updateProfile,
-  sendEmailVerification
+  sendEmailVerification,
+  query, 
+  where,
+  getDocs 
 }
