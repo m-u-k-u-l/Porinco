@@ -2,7 +2,6 @@
 import { useState, Fragment, useEffect } from 'react'
 // ** Next Import
 import { useRouter } from 'next/router'
-
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Menu from '@mui/material/Menu'
@@ -12,7 +11,6 @@ import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
-
 // ** Icons Imports
 import CogOutline from 'mdi-material-ui/CogOutline'
 import CurrencyUsd from 'mdi-material-ui/CurrencyUsd'
@@ -24,10 +22,8 @@ import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
 import Login from 'mdi-material-ui/Login'
 import AccountPlusOutline from 'mdi-material-ui/AccountPlusOutline'
 import Link from 'next/link'
-
 // import {removeUserSession, getToken} from '../../../../Utils/common'
 import {auth, onAuthStateChanged , signOut} from '../../../../firebase'
-
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
@@ -169,12 +165,14 @@ const UserDropdown = () => {
           </Box>
         </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
+        <Link href='/profile' >
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <AccountOutline sx={{ marginRight: 2 }} />
-            Profile
+            Profile  
           </Box>
         </MenuItem>
+        </Link>
         {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <EmailOutline sx={{ marginRight: 2 }} />
@@ -188,12 +186,14 @@ const UserDropdown = () => {
           </Box>
         </MenuItem> */}
         <Divider />
+        <Link href='/settings' >
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <CogOutline sx={{ marginRight: 2 }} />
             Settings
           </Box>
         </MenuItem>
+        </Link>
         {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <CurrencyUsd sx={{ marginRight: 2 }} />

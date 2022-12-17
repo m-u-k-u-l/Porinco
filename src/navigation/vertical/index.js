@@ -17,14 +17,9 @@ const navigation = () => {
 
   return [
     {
-      title: 'Dashboard',
+      title: 'Home',
       icon: HomeOutline,
       path: '/'
-    },
-    {
-      title: 'Account Settings',
-      icon: AccountCogOutline,
-      path: '/account-settings'
     },
     {
       title: 'Add New Product',
@@ -36,11 +31,6 @@ const navigation = () => {
       icon: Login,
       path: '/login',
       // openInNewTab: true
-    },
-    {
-      title: 'Sign In',
-      icon: Login,
-      path: '/sign-in',
     },
     {
       sectionTitle: 'Pages'

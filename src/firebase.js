@@ -1,7 +1,10 @@
 import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged, signOut, updateProfile, createUserWithEmailAndPassword , sendEmailVerification} from "firebase/auth";
-import { getFirestore, collection, addDoc, query, where, getDocs  } from "firebase/firestore";
+import { getFirestore, collection, addDoc, query, where, getDocs, doc, updateDoc  } from "firebase/firestore";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+// import firebase from "firebase/compat/app";
+// import "firebase/compat/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyATl6Fo2OY6H4FUT6fA12FwwdtjYiriaxE",
@@ -18,6 +21,7 @@ const app = initializeApp(firebaseConfig);
 // export const analytics = getAnalytics(app);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 
 export {
   getFirestore, 
@@ -32,5 +36,9 @@ export {
   sendEmailVerification,
   query, 
   where,
-  getDocs 
+  getDocs,
+  storage, ref, uploadBytesResumable, getDownloadURL, doc, updateDoc
 }
+
+// React js + firebase CRUD :
+// https://infotechwar.com/it-solutions/reactjs-crud-application-using-firebase-firestore-database/
